@@ -44,7 +44,7 @@ high_top = '97a10d31-545b-46d9-ad76-8b4801dd7766,'
 footwear_size = '5c357820-4cff-37a6-b815-984753484f06,'  # 7.5 US
 cold_weather = 'b3552af0-55fc-4196-99d2-6fc8b834b9f6'
 
-url_with_filter = 'https://api.nike.com/cic/browse/v1?queryid=filteredProductsWithContext' \
+url_with_filter = 'https://api.nike.com/cic/browse/v2?queryid=filteredProductsWithContext' \
                   '&uuids=' + men + shoes + air_force_1 + low_top + mid_top + high_top + footwear_size + \
                   '&language=ru' \
                   '&country=RU' \
