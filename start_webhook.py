@@ -7,27 +7,28 @@ from bot import bot, dp, scheduler
 
 from config import WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_PATH, WEBHOOK_URL
 
+
 log = logging.getLogger(__name__)
 
 
 async def on_startup(dp: Dispatcher):
     await bot.delete_webhook()
     scheduler.start()
-    log.warning("Starting connection...")
+    log.info("Starting connection...")
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
 
 async def on_shutdown(dp: Dispatcher):
-    log.warning("Shutting down...")
+    log.info("Shutting down...")
     scheduler.remove_all_jobs()
     await bot.delete_webhook()
     await dp.storage.close()
     await dp.storage.wait_closed()
-    log.warning("Bye!")
+    log.info("Bye!")
 
 
 if __name__ == "__main__":
-    log.warning("Bot started webhook..")
+    log.info("Bot started webhook..")
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,

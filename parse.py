@@ -1,21 +1,23 @@
 import asyncio
-from typing import Optional
+import logging
+import platform
 
 import aiohttp
 
 from config import headers, url_with_uuids
 
+log = logging.getLogger(__name__)
 
-async def parsing_data() -> Optional[list]:
+
+async def parse_data():
     async with aiohttp.ClientSession() as session:
         async with session.get(url=url_with_uuids, headers=headers) as response:
-            all_data = await response.json()
-            return all_data["data"]["filteredProductsWithContext"]["products"]
-
-
-def main():
-    asyncio.run(parsing_data())
+            if response.status != 200:
+                response.raise_for_status()
+            return await response.json()
 
 
 if __name__ == "__main__":
-    main()
+    if platform.system() == 'Windows':  # On Windows seems to be a problem with EventLoopPolicy
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    asyncio.run(parse_data())
